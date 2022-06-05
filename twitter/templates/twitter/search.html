@@ -1,0 +1,48 @@
+{% extends 'twitter/layout.html' %}
+{% load humanize %}
+{% block content %}
+
+
+
+{% for user in users %}
+
+
+<div id="tweetCards">
+            <!-- FOR LOOP HERE -->
+            <div class="tweet-wrap" style="border-radius:20px">
+                <div class="tweet-header">
+                    <img src="{{ user.profile.image.url }}"
+                        alt="" class="avator">
+                    <div class="tweet-header-info">
+
+                        <a href="{% url 'profile' user.username %}">
+                        {{ user.first_name }} {{ user.last_name }}
+                        </a>
+                        
+                        <span>@{{ user.username }}</span>
+
+                        <br>
+                        {% if request.user.is_authenticated %}
+	                        {% if user != request.user %}
+	                            {% if user not in request.user.profile.following %}
+	                                <a href="{% url 'follow' user %}" class="btn text-white rounded-pill">Follow</a>
+	                            {% else %}
+	                                <a href="{% url 'unfollow' user %}" class="btn text-white rounded-pill">Unfollow</a>
+	                            {% endif %}
+	                        {% endif %}
+                    	{% endif %}
+
+                    </div>
+                </div>
+                
+            </div>
+            <!-- FOR LOOP HERE -->
+
+        </div>
+
+
+
+{% endfor %}
+
+
+{% endblock content %}
